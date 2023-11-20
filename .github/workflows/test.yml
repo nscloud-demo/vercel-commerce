@@ -56,7 +56,6 @@ jobs:
           path: |
             ~/.pnpm-store
             ./node_modules
-          use-cache-volume: true
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
       - name: Run tests
