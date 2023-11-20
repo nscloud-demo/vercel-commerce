@@ -31,3 +31,33 @@ jobs:
         run: pnpm install --no-frozen-lockfile
       - name: Run tests
         run: pnpm test
+
+  test-on-namespace:
+    runs-on:
+      - nscloud-ubuntu-22.04-amd64-4x16-with-cache
+      - nscloud-cache-size-50gb
+      - nscloud-cache-tag-vercel-commerce
+      - nscloud-exp-runner-tool-cache-20gb
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Set node version
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+      - name: Set pnpm version
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: false
+          version: 7
+      - name: Setup npm cache
+        uses: namespacelabs/nscloud-cache-action@v1
+        with:
+          path: |
+            ~/.pnpm-store
+            ./node_modules
+          use-cache-volume: true
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Run tests
+        run: pnpm test
